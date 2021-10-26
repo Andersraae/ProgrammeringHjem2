@@ -38,8 +38,8 @@ public class TrianglePattern {
         }
 
         //https://stackoverflow.com/questions/2432866/add-objects-with-different-name-through-for-loop/2432885
-
-
+        //Andet link kan være brugbart til at forstå ArrayList
+        //https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
     }
 
     public int getValueAt(int r, int c){
