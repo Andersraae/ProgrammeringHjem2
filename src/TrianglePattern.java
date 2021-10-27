@@ -1,19 +1,17 @@
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.lang.Integer;
 
 public class TrianglePattern {
     int height;
     int width;
-    ArrayList<Integer> initial;
+    int[] initial;
+    int[][] grid;
 
     public TrianglePattern(int n, int h, int[] initial) {
         this.height = h;
         this.width = n;
-        this.initial = new ArrayList<Integer>(initial.length);
-        for (int i : initial)
-        {
-            this.initial.add(i);
-        }
+        this.initial = initial;
+        this.grid = new int[this.height][this.width];
         createGrid();
     }
 
@@ -27,22 +25,50 @@ public class TrianglePattern {
     }
 
     public void createGrid(){
-        ArrayList<Integer> initialRow = new ArrayList<>(this.width);
-        for (int i = 0; i < this.width; i++){
-            if (this.initial.contains(i)){
-                initialRow.add(1);
-            } else {
-                initialRow.add(0);
-            }
-            System.out.print(initialRow.get(i));
-        }
+        for (int i = 0; i < this.grid.length; i++){
+            for (int j = 0; j < this.grid[i].length; j++){
 
-        //https://stackoverflow.com/questions/2432866/add-objects-with-different-name-through-for-loop/2432885
-        //Andet link kan være brugbart til at forstå ArrayList
-        //https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+                //Første række
+                if (i == 0){
+                    boolean seed = false;
+                    for (int k : this.initial) {
+                        if (k == j) {
+                            seed = true;
+                            break;
+                        }
+                    }
+
+                    if (seed){
+                        this.grid[i][j] = 1;
+                    }
+
+                } else {
+
+                    //Følgende rækker
+                    if (j > 0 && j < this.grid[i].length-1){
+                        String abovePattern = this.grid[i-1][j-1] + "" + this.grid[i-1][j] + "" + this.grid[i-1][j+1];
+                        if ((Integer.parseInt(abovePattern, 2) > 0 && Integer.parseInt(abovePattern, 2) < 5)){
+                            this.grid[i][j] = 1;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public int getValueAt(int r, int c){
-        return 0;
+        return this.grid[r][c];
+    }
+
+    public int getN(){
+        return this.width;
+    }
+
+    public int getH(){
+        return this.height;
+    }
+
+    public int[] getInitial(){
+        return this.initial;
     }
 }

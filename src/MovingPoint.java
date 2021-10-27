@@ -3,7 +3,7 @@ import java.math.BigDecimal;
 public class MovingPoint {
     double x;
     double y;
-    double direction = 0;
+    double direction;
     double speed;
 
     //Constructors
