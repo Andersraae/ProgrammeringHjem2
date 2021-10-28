@@ -24,24 +24,20 @@ public class TextAnalysis {
 
     //Private methods
 
-    public static void main(String[] a){
-        TextAnalysis ta = new TextAnalysis("hamlet.txt", 50000);
-        System.out.println("word count = " + ta.wordCount());
-        System.out.println("different words = " + ta.getNoOfDifferentWords());
-        System.out.println("repetitions = " + ta.getNoOfRepetitions());
-    }
-
     private void readFile(){    // Læser filen
         try {
             File file = new File(this.fileName);
             Scanner scandi = new Scanner(file); // Opretter en scanner "scandi" som scammer filen
 
-            while(scandi.hasNextLine()){
+            while(scandi.hasNextLine()){ //Løkken kører indtil at antal ord = max ord, ellers break
                 if (this.numOfWords == this.maxWords){
                     break;
                 }
+                // line.split bryder en linje af i individuelle ord
                 String line = scandi.nextLine();
                 String[] tokens = line.split("[^a-zA-Z]+");
+
+                // Vi konverterer arrayet tokens til en array list, så vi kan fjerne tomme strings.
                 ArrayList<String> tokenArray = new ArrayList<>();
                 for (int a = 0; a < tokens.length; a++){
                     if (!tokens[a].equals("")){
@@ -49,7 +45,7 @@ public class TextAnalysis {
                     }
                 }
 
-                //Number of words, repetitions and unique words
+                // Antallet af ord
                 int newWords = this.numOfWords + tokenArray.size();
                 int loopcount;
                 if (newWords >= this.maxWords) {
@@ -58,13 +54,15 @@ public class TextAnalysis {
                     loopcount = tokenArray.size();
                 }
 
-
+                // Antallet af unikke ord
                 for (int i = 0; i < loopcount; i++) {
                     String theWord = tokenArray.get(i).toLowerCase();
                     if (!this.words.contains(theWord)){
                         this.words.add(theWord);
                         this.numOfUnique++;
                     }
+
+                    // Antallet af repetitions
                     if (this.lastWord.equals(theWord)) {
                         this.numOfRep++;
                     }
@@ -75,6 +73,7 @@ public class TextAnalysis {
             }
             scandi.close();
         } catch (FileNotFoundException e) {
+            // Programmet fejler og printer "File not found", hvis der ikke er en fil.
             System.out.println("File not found");
         }
     }
@@ -88,6 +87,7 @@ public class TextAnalysis {
     public int getNoOfDifferentWords(){
         return this.numOfUnique;
     }
+
     public int getNoOfRepetitions(){
         return this.numOfRep;
     }
