@@ -1,53 +1,51 @@
-import java.util.Arrays;
 import java.lang.Integer;
 
 public class TrianglePattern {
     int height;
     int width;
     int[] initial;
-    int[][] grid;
+    int[][] grid; //2-d grid
 
     public TrianglePattern(int n, int h, int[] initial) {
         this.height = h;
-        this.width = n;
+        if (n >= 5){
+            this.width = n;
+        } else {
+            System.out.println("n less than 5 - n set to 5");
+            this.width = 5;
+        }
         this.initial = initial;
-        this.grid = new int[this.height][this.width];
+        this.grid = new int[this.height][this.width]; //Sætter henholdsvis rækker og kolonner
         createGrid();
     }
 
-    public static void main(String[] a){
-        int[] init = { 10 };
-        int n = 21, h = 8;
-        TrianglePattern tp = new TrianglePattern(n, h, init);
-        System.out.println(n);
-        System.out.println(h);
-        System.out.println(Arrays.toString(init));
-    }
-
-    public void createGrid(){
-        for (int i = 0; i < this.grid.length; i++){
+    private void createGrid(){
+        for (int i = 0; i < this.grid.length; i++){ //For hver række
             for (int j = 0; j < this.grid[i].length; j++){
 
                 //Første række
                 if (i == 0){
                     boolean seed = false;
                     for (int k : this.initial) {
-                        if (k == j) {
+                        if (k == j) { //Hvis j findes i initial
                             seed = true;
                             break;
                         }
                     }
 
-                    if (seed){
+                    if (seed){  //Hvis en af værdierne i initial er i denne kolonne (j)
                         this.grid[i][j] = 1;
                     }
 
                 } else {
 
                     //Følgende rækker
-                    if (j > 0 && j < this.grid[i].length-1){
+                    if (j > 0 && j < this.grid[i].length-1){ //Ignorer første og sidste række
                         String abovePattern = this.grid[i-1][j-1] + "" + this.grid[i-1][j] + "" + this.grid[i-1][j+1];
+                        //Laver en string ud af de 3 celler over den nuværende
                         if ((Integer.parseInt(abovePattern, 2) > 0 && Integer.parseInt(abovePattern, 2) < 5)){
+                            //abovePattern udgør et binært tal ud fra de tre positioner.
+                            //Hvis heltalsværdien af det binære tal er fra og med 1 til og med 4, skal nuværende celle være 1.
                             this.grid[i][j] = 1;
                         }
                     }

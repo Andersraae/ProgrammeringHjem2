@@ -50,7 +50,7 @@ public class TextAnalysis {
                 if (newWords >= this.maxWords) {
                     loopcount = this.maxWords - newWords;
                 } else {
-                    loopcount = tokenArray.size();
+                    loopcount = tokenArray.size(); //.size() giver længden
                 }
 
                 // Antallet af unikke ord
