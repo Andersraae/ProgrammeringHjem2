@@ -23,8 +23,7 @@ public class TextAnalysis {
     }
 
     //Private methods
-
-    private void readFile(){    // Læser filen
+    private void readFile(){ // Læser filen
         try {
             File file = new File(this.fileName);
             Scanner scandi = new Scanner(file); // Opretter en scanner "scandi" som scammer filen
@@ -33,21 +32,21 @@ public class TextAnalysis {
                 if (this.numOfWords == this.maxWords){
                     break;
                 }
-                // line.split bryder en linje af i individuelle ord
+                // line.split bryder en string op i individuelle ord
                 String line = scandi.nextLine();
                 String[] tokens = line.split("[^a-zA-Z]+");
 
                 // Vi konverterer arrayet tokens til en array list, så vi kan fjerne tomme strings.
                 ArrayList<String> tokenArray = new ArrayList<>();
                 for (int a = 0; a < tokens.length; a++){
-                    if (!tokens[a].equals("")){
-                        tokenArray.add(tokens[a]);
+                    if (!tokens[a].equals("")){ //Hvis næste token ikke er en tom string
+                        tokenArray.add(tokens[a]); //Tilføj til tokenArray
                     }
                 }
 
                 // Antallet af ord
                 int newWords = this.numOfWords + tokenArray.size();
-                int loopcount;
+                int loopcount; //Hvor mange ord der mangler til 'numOfWords' når 'maxWords'
                 if (newWords >= this.maxWords) {
                     loopcount = this.maxWords - newWords;
                 } else {
@@ -56,22 +55,22 @@ public class TextAnalysis {
 
                 // Antallet af unikke ord
                 for (int i = 0; i < loopcount; i++) {
-                    String theWord = tokenArray.get(i).toLowerCase();
+                    String theWord = tokenArray.get(i).toLowerCase(); //Konverter til kun små bogstaver (non-case-sensitive)
                     if (!this.words.contains(theWord)){
                         this.words.add(theWord);
                         this.numOfUnique++;
                     }
 
-                    // Antallet af repetitions
-                    if (this.lastWord.equals(theWord)) {
+                    // Antallet af gentagelser
+                    if (this.lastWord.equals(theWord)) { //Hvis sidste ord er ens
                         this.numOfRep++;
                     }
-                    this.lastWord = theWord;
+                    this.lastWord = theWord; //Gemmer dette ord til næste omgang af løkken
                     this.numOfWords++;
                 }
 
             }
-            scandi.close();
+            scandi.close(); //Lukker scanneren
         } catch (FileNotFoundException e) {
             // Programmet fejler og printer "File not found", hvis der ikke er en fil.
             System.out.println("File not found");
